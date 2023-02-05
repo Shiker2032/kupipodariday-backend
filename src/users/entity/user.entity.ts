@@ -11,6 +11,9 @@ export class User {
   @Column()
   password: string;
 
+  @Column()
+  email: string;
+
   @Column({ default: 'Пока ничего не рассказал о себе' })
   about: string;
 

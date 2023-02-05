@@ -1,5 +1,9 @@
-import { Controller } from '@nestjs/common';
-import { Get, Req, UseGuards } from '@nestjs/common/decorators';
+import {
+  ClassSerializerInterceptor,
+  Controller,
+  UseInterceptors,
+} from '@nestjs/common';
+import { Get, Req, UseGuards } from '@nestjs/common/';
 import { AuthGuard } from '@nestjs/passport';
 import { UsersService } from './users.service';
 
@@ -7,9 +11,11 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(AuthGuard('jwt'))
   @Get('me')
-  getUser(@Req() req) {
+  async getUser(@Req() req) {
+    console.log(req.user);
     return req.user;
   }
 }
