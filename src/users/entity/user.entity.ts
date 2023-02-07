@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Wish } from '../../wishes/entity/wish.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'users' })
 export class User {
@@ -8,7 +9,7 @@ export class User {
   @Column()
   username: string;
 
-  @Column({ select: false })
+  @Column()
   password: string;
 
   @Column()
@@ -19,4 +20,7 @@ export class User {
 
   @Column({ default: 'https://i.pravatar.cc/300' })
   avatar: string;
+
+  @OneToMany(() => Wish, (wish) => wish.owner)
+  wishes: Wish[];
 }
