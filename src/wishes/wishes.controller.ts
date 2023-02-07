@@ -1,4 +1,11 @@
-import { Body, Controller, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Param,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { Get, Post } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateWishDto } from './dto/create-wish.dto';
@@ -22,6 +29,16 @@ export class WishesController {
 
   @Get('/top')
   async getTopWishes() {
-    return await this.wishesService.getLastWishes();
+    return await this.wishesService.getTopWishes();
+  }
+
+  @Get(':id')
+  async getWishbyId(@Param('id') id: number) {
+    return await this.wishesService.getWishById(id);
+  }
+
+  @Delete(':id')
+  async deleteWishById(@Param('id') id: number) {
+    return await this.wishesService.deleteWishById(id);
   }
 }

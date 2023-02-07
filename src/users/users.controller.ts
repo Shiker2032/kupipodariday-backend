@@ -1,6 +1,6 @@
 import { Controller, Param } from '@nestjs/common';
 import { Get, Req, UseGuards } from '@nestjs/common/';
-import { Body, Patch } from '@nestjs/common/decorators';
+import { Body, Patch, Post } from '@nestjs/common/decorators';
 
 import { JwtGuard } from 'src/auth/jwt.guard';
 
@@ -29,8 +29,22 @@ export class UsersController {
   }
   @UseGuards(JwtGuard)
   @Get('me/wishes')
-  async getUserWishes(@Req() req) {
-    const result = await this.usersService.getUserWishes(req.user.username);
+  async getActiveUserWishes(@Req() req) {
+    const result = await this.usersService.getActiveUserWishes(
+      req.user.username,
+    );
+    return result;
+  }
+
+  @Get(':username/wishes')
+  async getUserWishs(@Param('username') username: string) {
+    const result = await this.usersService.getActiveUserWishes(username);
+    return result;
+  }
+
+  @Post('find')
+  async searchForUser(@Body() searchQuery: any) {
+    const result = await this.usersService.searchForUser(searchQuery.query);
     return result;
   }
 }

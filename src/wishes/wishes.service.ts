@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
@@ -20,6 +20,29 @@ export class WishesService {
   }
 
   async getLastWishes() {
-    return this.wishRepo.find({});
+    return this.wishRepo.find({ order: { createdAt: 'desc' }, take: 40 });
+  }
+
+  async getTopWishes() {
+    return this.wishRepo.find({ order: { copied: 'desc' }, take: 10 });
+  }
+
+  async getWishById(id: number) {
+    // const wish = await this.wishRepo.findOneBy({ id });
+    const wish = this.wishRepo.findOne({ where: { id }, relations: ['owner'] });
+    if (!wish) {
+      throw new NotFoundException();
+    }
+    return wish;
+  }
+
+  async deleteWishById(id: number) {
+    const wish = await this.wishRepo.findOneBy({ id });
+    console.log(wish);
+    if (!wish) {
+      throw new NotFoundException();
+    }
+
+    return this.wishRepo.delete({ id });
   }
 }
