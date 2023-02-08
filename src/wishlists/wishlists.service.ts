@@ -15,7 +15,7 @@ export class WishlistsService {
   ) {}
 
   async getAll() {
-    return this.wishlistsRepo.find({});
+    return this.wishlistsRepo.find({ relations: ['owner', 'items'] });
   }
 
   async getById(id: number) {

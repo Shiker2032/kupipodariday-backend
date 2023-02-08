@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { ConflictException } from '@nestjs/common/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from 'src/users/users.service';
 import { In, Repository } from 'typeorm';
@@ -55,5 +56,30 @@ export class WishesService {
       where: { id: In(idArr) },
     });
     return wishes;
+  }
+
+  async copyWish(id: number, currentUser) {
+    const wish = await this.getWishById(id, ['owner']);
+    const wishCopy = {
+      name: wish.name,
+      image: wish.image,
+      link: wish.link,
+      price: wish.price,
+      description: wish.description,
+    };
+    const hasWish = await this.wishRepo.find({
+      where: {
+        owner: { id: currentUser.id },
+      },
+    });
+
+    if (hasWish) {
+      throw new ConflictException();
+    }
+
+    await this.createWish(wishCopy, currentUser.username);
+    await this.wishRepo.update(id, {
+      copied: wish.copied + 1,
+    });
   }
 }

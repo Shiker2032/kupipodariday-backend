@@ -43,4 +43,9 @@ export class WishesController {
   async deleteWishById(@Param('id') id: number, @Req() currentUser) {
     return await this.wishesService.deleteWishById(id, currentUser);
   }
+
+  @Post(':id/copy')
+  async copyWish(@Param('id') id: number, @Req() req) {
+    return this.wishesService.copyWish(id, req.user);
+  }
 }
