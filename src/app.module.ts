@@ -9,6 +9,8 @@ import { WishesModule } from './wishes/wishes.module';
 import { Wish } from './wishes/entity/wish.entity';
 import { WishlistsModule } from './wishlists/wishlists.module';
 import { Wishlist } from './wishlists/entity/wishlist.entity';
+import { OffersModule } from './offers/offers.module';
+import { Offer } from './offers/entity/offer.entity';
 
 @Module({
   imports: [
@@ -19,13 +21,14 @@ import { Wishlist } from './wishlists/entity/wishlist.entity';
       database: 'kupipodariday',
       username: 'student',
       password: 'student',
-      entities: [User, Wish, Wishlist],
+      entities: [User, Wish, Wishlist, Offer],
       synchronize: true,
     }),
     UsersModule,
     AuthModule,
     WishesModule,
     WishlistsModule,
+    OffersModule,
   ],
   controllers: [AppController],
   providers: [],

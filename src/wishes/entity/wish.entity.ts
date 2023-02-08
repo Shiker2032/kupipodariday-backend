@@ -1,9 +1,11 @@
+import { Offer } from 'src/offers/entity/offer.entity';
 import { User } from 'src/users/entity/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -42,4 +44,7 @@ export class Wish {
 
   @ManyToOne(() => User, (user) => user.wishes)
   owner: User;
+
+  @OneToMany(() => Offer, (offer) => offer.item)
+  offer: Offer;
 }

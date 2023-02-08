@@ -1,6 +1,7 @@
 import { Wish } from '../../wishes/entity/wish.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Wishlist } from 'src/wishlists/entity/wishlist.entity';
+import { Offer } from 'src/offers/entity/offer.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -27,4 +28,7 @@ export class User {
 
   @OneToMany(() => Wishlist, (wishlist) => wishlist.owner)
   wishlists: Wishlist[];
+
+  @OneToMany(() => Offer, (offer) => offer.user)
+  Offers: Offer[];
 }

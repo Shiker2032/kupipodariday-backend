@@ -82,4 +82,8 @@ export class WishesService {
       copied: wish.copied + 1,
     });
   }
+
+  async updateWish(id: number, updateWishDto) {
+    return await this.wishRepo.update(id, updateWishDto);
+  }
 }
