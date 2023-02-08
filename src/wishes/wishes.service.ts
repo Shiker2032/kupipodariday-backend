@@ -1,7 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from 'src/users/users.service';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CreateWishDto } from './dto/create-wish.dto';
 import { Wish } from './entity/wish.entity';
 
@@ -12,8 +16,8 @@ export class WishesService {
     private usersService: UsersService,
   ) {}
 
-  async createWish(createWishDto: CreateWishDto, userData: any) {
-    const user = await this.usersService.findOneByUsername(userData.username);
+  async createWish(createWishDto: CreateWishDto, username: string) {
+    const user = await this.usersService.getUserByUsername(username);
     const wish = this.wishRepo.create(createWishDto);
     wish.owner = user;
     return this.wishRepo.save(wish);
@@ -27,22 +31,29 @@ export class WishesService {
     return this.wishRepo.find({ order: { copied: 'desc' }, take: 10 });
   }
 
-  async getWishById(id: number) {
-    // const wish = await this.wishRepo.findOneBy({ id });
-    const wish = this.wishRepo.findOne({ where: { id }, relations: ['owner'] });
+  async getWishById(id: number, relations = null) {
+    const wish = this.wishRepo.findOne({ where: { id }, relations });
     if (!wish) {
       throw new NotFoundException();
     }
     return wish;
   }
 
-  async deleteWishById(id: number) {
+  async deleteWishById(id: number, currentUser) {
     const wish = await this.wishRepo.findOneBy({ id });
-    console.log(wish);
     if (!wish) {
       throw new NotFoundException();
     }
-
+    if (wish.owner !== currentUser.id) {
+      throw new ForbiddenException();
+    }
     return this.wishRepo.delete({ id });
+  }
+
+  async findWishesById(idArr: any) {
+    const wishes = await this.wishRepo.find({
+      where: { id: In(idArr) },
+    });
+    return wishes;
   }
 }

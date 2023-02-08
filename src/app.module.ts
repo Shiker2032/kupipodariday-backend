@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { WishesModule } from './wishes/wishes.module';
 import { Wish } from './wishes/entity/wish.entity';
+import { WishlistsModule } from './wishlists/wishlists.module';
+import { Wishlist } from './wishlists/entity/wishlist.entity';
 
 @Module({
   imports: [
@@ -17,12 +19,13 @@ import { Wish } from './wishes/entity/wish.entity';
       database: 'kupipodariday',
       username: 'student',
       password: 'student',
-      entities: [User, Wish],
+      entities: [User, Wish, Wishlist],
       synchronize: true,
     }),
     UsersModule,
     AuthModule,
     WishesModule,
+    WishlistsModule,
   ],
   controllers: [AppController],
   providers: [],
