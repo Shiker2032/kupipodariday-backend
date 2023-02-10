@@ -43,6 +43,8 @@ export class OffersService {
       item: wish,
     });
 
+    await this.wishesService.updateWish(wish.id, wish);
+
     return this.offerRepo.save(offer);
   }
 }

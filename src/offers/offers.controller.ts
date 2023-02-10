@@ -27,6 +27,6 @@ export class OffersController {
 
   @Post()
   async createOffer(@Body() createOfferDto: any, @Req() currentUser) {
-    return await this.offersService.create(currentUser, createOfferDto);
+    return await this.offersService.create(currentUser.user, createOfferDto);
   }
 }

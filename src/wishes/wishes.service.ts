@@ -73,12 +73,13 @@ export class WishesService {
       },
     });
 
-    if (hasWish) {
+    if (hasWish.length) {
+      console.log(hasWish);
       throw new ConflictException();
     }
 
     await this.createWish(wishCopy, currentUser.username);
-    await this.wishRepo.update(id, {
+    return this.wishRepo.update(id, {
       copied: wish.copied + 1,
     });
   }
