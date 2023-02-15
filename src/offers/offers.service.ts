@@ -47,7 +47,7 @@ export class OffersService {
       item: wish,
     });
 
-    await this.wishesService.updateRaisedWishById(user.id, wish.id, wish);
+    await this.wishesService.updateRaisedWishById(wish.id, wish);
     return this.offerRepo.save(offer);
   }
 }

@@ -95,14 +95,15 @@ export class WishesService {
     if (userId !== wish.owner.id) {
       throw new ForbiddenException('Вы не можете изменить чужой подарок');
     }
+    if (wish.raised !== 0) {
+      throw new ConflictException(
+        'Вы не можете изменить стоимость подарка, если уже есть желающие его поддержать',
+      );
+    }
     return await this.wishRepo.update(id, updateWishDto);
   }
 
-  async updateRaisedWishById(
-    userId: number,
-    id: number,
-    updateWishDto: UpdateWishDto,
-  ) {
+  async updateRaisedWishById(id: number, updateWishDto: UpdateWishDto) {
     return await this.wishRepo.update(id, updateWishDto);
   }
 }
