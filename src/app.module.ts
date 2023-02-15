@@ -11,10 +11,11 @@ import { WishlistsModule } from './wishlists/wishlists.module';
 import { Wishlist } from './wishlists/entity/wishlist.entity';
 import { OffersModule } from './offers/offers.module';
 import { Offer } from './offers/entity/offer.entity';
+import configuration from 'configuration';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ load: [configuration], isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
