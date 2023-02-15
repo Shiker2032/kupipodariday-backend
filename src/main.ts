@@ -1,5 +1,4 @@
 import { ValidationPipe } from '@nestjs/common';
-import { ClassSerializerInterceptor } from '@nestjs/common/serializer';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 

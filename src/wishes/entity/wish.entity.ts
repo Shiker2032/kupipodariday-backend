@@ -1,4 +1,3 @@
-import { IsNotEmpty } from 'class-validator';
 import { Offer } from 'src/offers/entity/offer.entity';
 import { User } from 'src/users/entity/user.entity';
 import {
