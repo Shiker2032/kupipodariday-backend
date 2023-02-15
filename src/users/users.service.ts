@@ -56,7 +56,6 @@ export class UsersService {
 
   async updateUserById(id: number, updateUserDto: UpdateUserDto) {
     const user = await this.findUserById(id);
-
     const emailUsed = await this.findUsersByQuery(updateUserDto.email);
 
     if (emailUsed.length) {

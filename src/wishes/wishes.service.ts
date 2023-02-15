@@ -69,6 +69,9 @@ export class WishesService {
     };
     const hasWish = await this.wishRepo.find({
       where: {
+        name: wish.name,
+        link: wish.link,
+        price: wish.price,
         owner: { id: currentUser.id },
       },
     });
