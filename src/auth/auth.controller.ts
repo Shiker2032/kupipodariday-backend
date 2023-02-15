@@ -1,11 +1,13 @@
 import { Controller, Req } from '@nestjs/common';
 import { Body, Post } from '@nestjs/common/';
-import { UseGuards } from '@nestjs/common/decorators';
+import { UseGuards, UseInterceptors } from '@nestjs/common/decorators';
+import { ClassSerializerInterceptor } from '@nestjs/common/serializer';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 import { AuthService } from './auth.service';
 import { LocalGuard } from './local.guard';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('')
 export class AuthController {
   constructor(

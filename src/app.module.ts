@@ -23,6 +23,7 @@ import { Offer } from './offers/entity/offer.entity';
       password: 'student',
       entities: [User, Wish, Wishlist, Offer],
       synchronize: true,
+      schema: 'public',
     }),
     UsersModule,
     AuthModule,

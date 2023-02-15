@@ -1,3 +1,4 @@
+import { IsNotEmpty } from 'class-validator';
 import { Offer } from 'src/offers/entity/offer.entity';
 import { User } from 'src/users/entity/user.entity';
 import {
@@ -46,5 +47,5 @@ export class Wish {
   owner: User;
 
   @OneToMany(() => Offer, (offer) => offer.item)
-  offer: Offer;
+  offers: Offer;
 }

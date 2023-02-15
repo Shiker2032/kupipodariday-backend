@@ -1,20 +1,35 @@
 import { Wish } from '../../wishes/entity/wish.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Wishlist } from 'src/wishlists/entity/wishlist.entity';
 import { Offer } from 'src/offers/entity/offer.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
   @Column()
   username: string;
 
   @Column()
+  @Exclude()
   password: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column({ default: 'Пока ничего не рассказал о себе' })

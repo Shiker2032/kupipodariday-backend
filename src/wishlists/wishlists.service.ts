@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from 'src/users/users.service';
 import { WishesService } from 'src/wishes/wishes.service';
@@ -14,22 +15,25 @@ export class WishlistsService {
     @InjectRepository(Wishlist) private wishlistsRepo: Repository<Wishlist>,
   ) {}
 
-  async getAll() {
+  async findAllWishlists() {
     return this.wishlistsRepo.find({ relations: ['owner', 'items'] });
   }
 
-  async getById(id: number) {
-    const wishList = await this.wishlistsRepo.findOne({
+  async findWishlistById(id: number) {
+    const wishlist = await this.wishlistsRepo.findOne({
       where: { id },
       relations: ['owner', 'items'],
     });
-    return wishList;
+    if (!wishlist) {
+      throw new NotFoundException('Такого списка желаний не существует');
+    }
+    return wishlist;
   }
 
-  async create(createWishListDto: CreateWishListDto, currentUser) {
+  async createWishlist(createWishListDto: CreateWishListDto, currentUser) {
     const { itemsId, ...collectionData } = createWishListDto;
-    const wishes = await this.wishesService.findWishesById(itemsId);
-    const user = await this.usersService.getUserById(currentUser.id);
+    const wishes = await this.wishesService.findManyById(itemsId);
+    const user = await this.usersService.findUserById(currentUser.id);
 
     return await this.wishlistsRepo.save({
       ...collectionData,
@@ -38,7 +42,7 @@ export class WishlistsService {
     });
   }
 
-  async deleteById(id: number) {
+  async deleteWishlistById(id: number) {
     return this.wishlistsRepo.delete(id);
   }
 }

@@ -8,25 +8,26 @@ import {
 } from 'class-validator';
 
 export class CreateWishDto {
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   @Length(1, 250)
   name: string;
 
-  @IsUrl()
   @IsNotEmpty()
+  @IsUrl()
   link: string;
 
-  @IsUrl()
   @IsNotEmpty()
+  @IsUrl()
   image: string;
 
+  @IsNotEmpty()
   @IsNumber()
   @Min(1)
   price: number;
 
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   @Length(1, 1024)
   description: string;
 }

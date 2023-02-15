@@ -17,12 +17,12 @@ export class WishlistsController {
 
   @Get()
   async getWishlists() {
-    return await this.wishlistsService.getAll();
+    return await this.wishlistsService.findAllWishlists();
   }
 
   @Get(':id')
   async getWishList(@Param('id') id: number) {
-    return await this.wishlistsService.getById(id);
+    return await this.wishlistsService.findWishlistById(id);
   }
 
   @Post()
@@ -30,11 +30,14 @@ export class WishlistsController {
     @Body() createWishListDto: CreateWishListDto,
     @Req() req,
   ) {
-    return await this.wishlistsService.create(createWishListDto, req.user);
+    return await this.wishlistsService.createWishlist(
+      createWishListDto,
+      req.user,
+    );
   }
 
   @Delete(':id')
   async deleteWishList(@Param('id') id: number) {
-    return await this.wishlistsService.deleteById(id);
+    return await this.wishlistsService.deleteWishlistById(id);
   }
 }
